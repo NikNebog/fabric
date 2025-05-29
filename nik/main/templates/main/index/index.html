@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мой сайт{% endblock title %}</title>
+
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+
+<header class="sticky-top shadow-sm bg-primary text-white">
+    <div class="container py-3 d-flex justify-content-between align-items-center">
+        <div class="header-left">
+            <a href="/" class="text-white text-decoration-none me-3">Trip</a>
+            <a href="/" class="text-white text-decoration-none">Vacation</a>
+        </div>
+        <div class="header-right">
+            {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ user.username }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                        <li><a class="dropdown-item" href="#">Профиль</a></li>
+                        <li><a class="dropdown-item" href="#">Информация</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Выход</a></li>
+                    </ul>
+                </div>
+            {% else %}
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Войти
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Вход в систему</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Имя пользователя</label>
+                        <input type="text" name="username" class="form-control" id="id_username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">Пароль</label>
+                        <input type="password" name="password" class="form-control" id="id_password" required>
+                    </div>
+                    <input type="hidden" name="next" value="{{ request.GET.next }}">
+                    <button type="submit" class="btn btn-primary w-100">Войти</button>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <p class="mb-0">Нет аккаунта? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Зарегистрируйтесь</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex">
+    <!-- Сайдбар -->
+    <aside id="sidebar" class="bg-light border-end p-3" style="width: 250px;">
+        <button id="toggleSidebar" class="btn btn-primary mb-3">Скрыть</button>
+        <div id="sidebarContent">
+            {% if user.is_authenticated %}
+                <h5>Пользователь</h5>
+                <p><strong>Имя:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+            {% endif %}
+        </div>
+    </aside>
+
+    <!-- Контент -->
+    <main class="flex-grow-1 p-4">
+        {% block content %}
+        {% endblock content %}
+    </main>
+</div>
+
+<footer class="bg-primary text-white text-center py-3 mt-auto">
+    <div class="container">
+        Сайт Небогина Никиты © {{ now|date:"Y" }}
+    </div>
+</footer>
+
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toggleBtn = document.getElementById('toggleSidebar');
+        var sidebar = document.getElementById('sidebar');
+        toggleBtn.addEventListener('click', function () {
+            if (sidebar.style.display === 'none') {
+                sidebar.style.display = 'block';
+                toggleBtn.textContent = 'Скрыть';
+            } else {
+                sidebar.style.display = 'none';
+                toggleBtn.textContent = 'Показать';
+            }
+        });
+    });
+</script>
+</body>
+</html>
