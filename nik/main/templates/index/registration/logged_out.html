@@ -1,0 +1,9 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2>Вы успешно вышли из системы</h2>
+    <p>Хотите <a href="{% url 'login' %}">войти</a> снова?</p>
+    <p>Или вернуться на <a href="{% url 'index' %}">главную страницу</a></p>
+</div>
+{% endblock %}

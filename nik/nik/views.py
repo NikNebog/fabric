@@ -4,16 +4,10 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 def index_view(request):
-
-    return render(request,'index/index.html')
+    return render(request, 'main/index/index.html') 
 
 def logged_out_view(request):
-    return render(request, 'index/registration/logged_out.html')
-
-
-def profile_view(request):
-    return render(request, 'index/profile.html', {'user': request.user})
-
+    return render(request, 'main/index/registration/logged_out.html')
 
 def calendar_view(request):
     now = datetime.now()
@@ -27,4 +21,6 @@ def calendar_view(request):
         'month': now.strftime('%B'),
         'year': year,
     }
-    return render(request, 'index/index.html', context)
+    return render(request, 'main/index/index.html', context)
+
+

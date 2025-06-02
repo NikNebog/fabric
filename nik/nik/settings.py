@@ -68,6 +68,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'nik.wsgi.application'
 
 
@@ -130,4 +132,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'auth.User'
 
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/index/'
+LOGOUT_REDIRECT_URL = '/logged-out/'
