@@ -1,0 +1,19 @@
+{% extends "index/index.html" %}
+
+{% block title %}Информация{% endblock %}
+
+{% block content %}
+
+    {% if employee %}
+        <h3>Информация о сотруднике</h3>
+        <ul>
+            <li><strong>Телефон:</strong> {{ employee.phone }}</li>
+            <li><strong>Должность:</strong> {{ employee.position }}</li>
+            <li><strong>В командировке:</strong> {{ employee.on_business_trip|yesno:"Да,Нет" }}</li>
+            <li><strong>Дата добавления:</strong> {{ employee.date }}</li>
+        </ul>
+    {% else %}
+        {{ employee }}
+        <p>Сотрудник с именем "{{ user.username }}" не найден.</p>
+    {% endif %}
+{% endblock %}

@@ -17,8 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from main.views import logged_out_view, index_view, profile_view, calendar_view
-from main import views
+from main.views import logged_out_view, index_view, profile_view, calendar_view, info_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +28,5 @@ urlpatterns = [
     path('logged-out/', logged_out_view, name='logged_out'),
     path('profile/', profile_view, name='profile'),
     path('', calendar_view, name='calendar'),
+    path('info/', info_view, name='info'),
 ]

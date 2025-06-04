@@ -11,13 +11,14 @@
 </head>
 <body>
 
+<!-- Хедер -->
 <header class="sticky-top shadow-sm bg-primary text-white">
     <div class="container py-3 d-flex justify-content-between align-items-center">
         <div class="header-left">
+            <a href="/" class="text-white text-decoration-none">Main</a>
             <a href="/" class="text-white text-decoration-none me-3">Trip</a>
-            <a href="/" class="text-white text-decoration-none">Vacation</a>
+            <a href="/" class="text-white text-decoration-none">Application</a>
         </div>
-        
         <div class="header-right">
             {% if user.is_authenticated %}
                 <div class="dropdown">
@@ -26,7 +27,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                         <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
-                        <li><a class="dropdown-item" href="#">Информация</a></li>
+                        <li><a class="dropdown-item" href="{% url 'info' %}">Информация</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="post" action="{% url 'logout' %}">
@@ -37,14 +38,13 @@
                     </ul>
                 </div>
             {% else %}
-                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#loginModal">
-                    Войти
-                </button>
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#loginModal">Войти</button>
             {% endif %}
         </div>
     </div>
 </header>
 
+<!-- Модальное окно входа -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -74,8 +74,7 @@
     </div>
 </div>
 
-
-
+<!-- Боковая панель и основное содержимое -->
 <div class="d-flex">
     <aside id="sidebar" class="bg-light border-end p-3" style="width: 250px;">
         <button id="toggleSidebar" class="btn btn-primary mb-3">Скрыть</button>
@@ -90,17 +89,14 @@
 
     <main class="flex-grow-1 p-4">
         {% block content %}
-        <h2>{{ month }} {{ year }}</h2>
-        <div class="table-responsive">
-            {{ calendar|safe }}
-        </div>
         {% endblock content %}
     </main>
 </div>
 
+<!-- Футер -->
 <footer class="bg-primary text-white text-center py-3 mt-auto">
     <div class="container">
-        Сайт Небогина Никиты © {{ now|date:"Y" }}
+        Сайт Небогина Никиты © {% now "d/m/Y" %}
     </div>
 </footer>
 
@@ -122,136 +118,3 @@
 </script>
 </body>
 </html>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const calendarBody = document.getElementById("navleft-calendar-body");
-    const currentMonthYear = document.getElementById("navleft-current-month-year");
-    const prevMonthBtn = document.getElementById("navleft-prev-month");
-    const nextMonthBtn = document.getElementById("navleft-next-month");
-    const prevYearBtn = document.getElementById("navleft-prev-year");
-    const nextYearBtn = document.getElementById("navleft-next-year");
-
-    let today = new Date();
-    let currentYear = today.getFullYear();
-    let currentMonth = today.getMonth();
-
-    // Собираем события из all_events для календаря
-    const events = {};
-    {% for event in all_events %}
-        {% if event.type == 'calendar' %}
-            events["{{ event.date|date:'Y-m-d' }}"] = {
-                url: "{% url 'event_detail' event.id %}",
-                title: "{{ event.title|escapejs }}",
-                type: "custom"
-            };
-        {% elif event.type == 'business_trip' %}
-            events["{{ event.date|date:'Y-m-d' }}"] = {
-                url: "{% url 'business_trip_detail' event.id %}",
-                title: "Командировка №{{ event.id }}",
-                type: "custom"
-            };
-        {% endif %}
-    {% endfor %}
-
-    // Пример праздников (можно заменить на свои)
-    const holidays = [
-        // '2024-01-01', '2024-01-07', ... (формат YYYY-MM-DD)
-        {% for event in all_events %}
-            {% if event.is_holiday %}
-                "{{ event.date|date:'Y-m-d' }}",
-            {% endif %}
-        {% endfor %}
-    ];
-
-    function isHoliday(dateStr) {
-        return holidays.includes(dateStr);
-    }
-
-    function updateCalendar(events) {
-        const monthNames = [
-            "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-            "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-        ];
-        currentMonthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-        calendarBody.innerHTML = "";
-
-        let firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        if (firstDay === 0) firstDay = 7;
-
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-        let day = 1;
-        for (let i = 0; i < 6; i++) {
-            const row = document.createElement("tr");
-            for (let j = 1; j <= 7; j++) {
-                const cell = document.createElement("td");
-                if ((i === 0 && j < firstDay) || day > daysInMonth) {
-                    cell.textContent = "";
-                } else {
-                    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-                    cell.textContent = day;
-
-                    // Определяем тип дня
-                    let isToday =
-                        day === today.getDate() &&
-                        currentMonth === today.getMonth() &&
-                        currentYear === today.getFullYear();
-
-                    if (isHoliday(dateStr)) {
-                        cell.classList.add("holiday-day");
-                    } else if (events[dateStr]) {
-                        cell.classList.add("custom-event-day");
-                        cell.title = events[dateStr].title;
-                        cell.style.cursor = "pointer";
-                        cell.addEventListener("click", function () {
-                            window.location.href = events[dateStr].url;
-                        });
-                    } else if (j === 6 || j === 7) {
-                        cell.classList.add("weekend-day");
-                    }
-
-                    if (isToday) {
-                        cell.classList.add("today-day");
-                    }
-
-                    day++;
-                }
-                row.appendChild(cell);
-            }
-            calendarBody.appendChild(row);
-            if (day > daysInMonth) break;
-        }
-    }
-
-    prevMonthBtn.addEventListener("click", function () {
-        currentMonth--;
-        if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
-        }
-        updateCalendar(events);
-    });
-
-    nextMonthBtn.addEventListener("click", function () {
-        currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
-        }
-        updateCalendar(events);
-    });
-
-    prevYearBtn.addEventListener("click", function () {
-        currentYear--;
-        updateCalendar(events);
-    });
-
-    nextYearBtn.addEventListener("click", function () {
-        currentYear++;
-        updateCalendar(events);
-    });
-
-    updateCalendar(events);
-});
-</script>
