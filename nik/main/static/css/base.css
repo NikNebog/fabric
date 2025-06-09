@@ -1,52 +1,235 @@
-/* Сброс отступов и паддингов */
-* {
-    box-sizing: border-box;
+/* Основные стили */
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
 }
 
-/* Основные стили */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.wrapper {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 20px 0;
 }
 
 /* Хедер */
 header {
-    background-color: #007bff;
+    background-color: #7395AE; /* Серо-голубой */
     color: #ffffff;
 }
 
-/* Ссылки в хедере */
 .header-left a {
     color: #ffffff;
     text-decoration: none;
-    margin-right: 1rem;
+    margin-right: 15px;
 }
 
 .header-left a:hover {
     text-decoration: underline;
+    color: #E0E2E4; /* Светло-серый */
 }
 
-/* Сайдбар */
-#sidebar {
-    background-color: #f8f9fa;
-    border-right: 1px solid #dee2e6;
+/* Кнопки */
+.btn-primary {
+    background-color: #7395AE; /* Серо-голубой */
+    border-color: #7395AE;
 }
 
-/* Кнопка скрытия сайдбара */
-#toggleSidebar {
-    width: 100%;
+.btn-primary:hover {
+    background-color: #5D7E9B;
+    border-color: #5D7E9B;
 }
 
-/* Календарь */
-#calendar {
-    font-size: 0.9rem;
+.btn-light {
+    background-color: #E0E2E4; /* Светло-серый */
+    border-color: #E0E2E4;
+    color: #2D3E50; /* Темно-серый */
+}
+
+.btn-light:hover {
+    background-color: #C5C8CC;
+    border-color: #C5C8CC;
 }
 
 /* Футер */
 footer {
-    background-color: #007bff;
+    flex-shrink: 0;
+    background-color: #7395AE; /* Серо-голубой */
     color: #ffffff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
 }
 
+/* Стили для карусели */
+.carousel-3d-container {
+    perspective: 1000px;
+    width: 100%;
+    height: 400px;
+    position: relative;
+    overflow: visible;
+}
+
+.carousel-3d {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+}
+
+.carousel-item {
+    width: 300px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    margin: -100px 0 0 -150px;
+    transition: transform 1s, opacity 1s;
+    backface-visibility: hidden;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.carousel-item.active {
+    width: 350px;
+    height: 350px;
+    z-index: 10;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.carousel-nav {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.carousel-dot.active {
+    background: #7395AE; /* Серо-голубой */
+}
+
+/* Сайдбар */
+#sidebar {
+    width: 300px;
+    transition: transform 0.3s ease;
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1030;
+     max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+#sidebar.hidden {
+    transform: translateX(-100%);
+    display: none;
+}
+
+#toggleSidebar {
+    z-index: 1050;
+    background-color: #7395AE;
+    color: white;
+    border: none;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Календарь */
+#calendar {
+    width: 100%;
+    min-height: 400px;
+    margin-top: 20px;
+}
+
+.fc { /* Стили для FullCalendar */
+    font-family: Arial, sans-serif;
+}
+
+/* Дополнительные стили */
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.modal-content {
+    border-radius: 10px;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 250px;
+        position: fixed;
+        height: 100%;
+        z-index: 1040;
+    }
+    
+    .carousel-item {
+        width: 250px;
+        height: 150px;
+        margin: -75px 0 0 -125px;
+    }
+    
+    .carousel-item.active {
+        width: 280px;
+        height: 280px;
+    }
+}
+
+
+
+/* Стиль для заголовков таблицы */
+.text-header-color {
+    color: #05386a !important;
+}
+
+/* Дополнительно можно стилизовать таблицу */
+.table {
+    border-color: #E0E2E4;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(115, 149, 174, 0.05);
+}

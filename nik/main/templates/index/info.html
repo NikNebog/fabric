@@ -3,17 +3,49 @@
 {% block title %}Информация{% endblock %}
 
 {% block content %}
-
     {% if employee %}
-        <h3>Информация о сотруднике</h3>
-        <ul>
-            <li><strong>Телефон:</strong> {{ employee.phone }}</li>
-            <li><strong>Должность:</strong> {{ employee.position }}</li>
-            <li><strong>В командировке:</strong> {{ employee.on_business_trip|yesno:"Да,Нет" }}</li>
-            <li><strong>Дата добавления:</strong> {{ employee.date }}</li>
-        </ul>
+        <h3 class="mb-4 text-center">Информация о командировке</h3>
+
+        {% if employee.on_business_trip %}
+            <div class="table-responsive w-50 mx-auto">
+                <table class="table table-bordered table-striped align-middle">
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="text-header-color">Сотрудник</th>
+                            <td>{{ employee.surname }} {{ employee.name }} {{ employee.patronymic }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-header-color">Начало командировки</th>
+                            <td>{{ employee.business_trip_start|date:"d.m.Y" }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-header-color">Окончание командировки</th>
+                            <td>{{ employee.business_trip_end|date:"d.m.Y" }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-header-color">Регион командировки</th>
+                            <td>{{ employee.business_trip_region }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-header-color">Город командировки</th>
+                            <td>{{ employee.business_trip_city }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-header-color">Задание на командировку</th>
+                            <td>{{ employee.business_trip_task }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center w-50 mx-auto mt-4">
+                <p>Сотрудник <strong>{{ employee.surname }} {{ employee.name }}</strong> сейчас не в командировке.</p>
+            </div>
+        {% endif %}
     {% else %}
-        {{ employee }}
-        <p>Сотрудник с именем "{{ user.username }}" не найден.</p>
+        <div class="alert alert-warning text-center w-50 mx-auto mt-4">
+            <p>Сотрудник не найден.</p>
+        </div>
     {% endif %}
 {% endblock %}
+

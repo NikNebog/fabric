@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from main.views import logged_out_view, index_view, profile_view, calendar_view, info_view
+from main.views import logged_out_view, index_view, profile_view, calendar_view, info_view, trip_view, job_application_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +29,6 @@ urlpatterns = [
     path('profile/', profile_view, name='profile'),
     path('', calendar_view, name='calendar'),
     path('info/', info_view, name='info'),
+    path('trip/', trip_view, name='trip'),
+    path('apply/', job_application_view, name='job_application'),
 ]

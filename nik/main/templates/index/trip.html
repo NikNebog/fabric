@@ -1,0 +1,44 @@
+{% extends "index/index.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+    {% if employee %}
+        <h3 class="mb-4 text-center">Информация о командировке</h3>
+
+        <div class="table-responsive w-50 mx-auto">
+            <table class="table table-bordered table-striped align-middle">
+                <tbody>
+                    <tr>
+                        <th scope="row" class="text-header-color">Регион назначения</th>
+                        <td>{{ employee.business_trip_region }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-header-color">Город назначения</th>
+                        <td>{{ employee.business_trip_city }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-header-color">Цель командировки</th>
+                        <td>{{ employee.business_trip_task }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-header-color">Дата начала</th>
+                        <td>{{ employee.business_trip_start|date:"d.m.Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-header-color">Дата окончания</th>
+                        <td>{{ employee.business_trip_end|date:"d.m.Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-header-color">Дата добавления</th>
+                        <td>{{ employee.date|date:"d.m.Y" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center w-50 mx-auto mt-4">
+            <p>Информация о поездке не найдена.</p>
+        </div>
+    {% endif %}
+{% endblock %}

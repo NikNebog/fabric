@@ -3,13 +3,32 @@
 {% block title %}Профиль{% endblock %}
 
 {% block content %}
-    <h2>Профиль пользователя</h2>
-    <ul>
-        <li><strong>Имя пользователя:</strong> {{ user.username }}</li>
-        <li><strong>Email:</strong> {{ user.email }}</li>
-        <li><strong>Имя:</strong> {{ user.first_name }}</li>
-        <li><strong>Фамилия:</strong> {{ user.last_name }}</li>
-        <li><strong>Дата регистрации:</strong> {{ user.date_joined }}</li>
-    </ul>
+    <h2 class="mb-4 text-center">Профиль пользователя</h2>
 
+    <div class="table-responsive w-50 mx-auto">
+        <table class="table table-bordered table-striped align-middle">
+            <tbody>
+                <tr>
+                    <th scope="row" class="text-header-color">Имя пользователя</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-header-color">Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-header-color">Имя</th>
+                    <td>{{ user.first_name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-header-color">Фамилия</th>
+                    <td>{{ user.last_name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-header-color">Дата регистрации</th>
+                    <td>{{ user.date_joined|date:"d.m.Y H:i" }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
