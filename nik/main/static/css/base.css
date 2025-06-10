@@ -9,7 +9,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", sans-serif;
 }
 
 .wrapper {
@@ -25,7 +25,7 @@ main {
 
 /* Хедер */
 header {
-    background-color: #7395AE; /* Серо-голубой */
+    background-color: #7395AE;
     color: #ffffff;
 }
 
@@ -37,12 +37,12 @@ header {
 
 .header-left a:hover {
     text-decoration: underline;
-    color: #E0E2E4; /* Светло-серый */
+    color: #E0E2E4;
 }
 
 /* Кнопки */
 .btn-primary {
-    background-color: #7395AE; /* Серо-голубой */
+    background-color: #7395AE;
     border-color: #7395AE;
 }
 
@@ -52,9 +52,9 @@ header {
 }
 
 .btn-light {
-    background-color: #E0E2E4; /* Светло-серый */
+    background-color: #E0E2E4;
     border-color: #E0E2E4;
-    color: #2D3E50; /* Темно-серый */
+    color: #2D3E50;
 }
 
 .btn-light:hover {
@@ -65,95 +65,149 @@ header {
 /* Футер */
 footer {
     flex-shrink: 0;
-    background-color: #7395AE; /* Серо-голубой */
+    background-color: #7395AE;
     color: #ffffff;
     text-align: center;
     padding: 1rem;
     margin-top: auto;
 }
 
-/* Стили для карусели */
-.carousel-3d-container {
-    perspective: 1000px;
-    width: 100%;
-    height: 400px;
+
+.slider-container {
     position: relative;
-    overflow: visible;
-}
-
-.carousel-3d {
     width: 100%;
-    height: 100%;
-    position: absolute;
-    transform-style: preserve-3d;
-    transition: transform 1s;
+    max-width: 800px; /* Ограничьте ширину контейнера, если нужно */
+    margin: 0 auto;
+    overflow: hidden;
+    /* Устанавливаем общую высоту для всего слайдера.
+       Эта высота будет включать изображение и подпись. */
+    height: 450px; /* **ВАЖНО: Отрегулируйте эту высоту под свой контент** */
+    display: flex; /* Для центрирования всего содержимого внутри контейнера */
+    align-items: center; /* Центрирует по вертикали */
+    justify-content: center; /* Центрирует по горизонтали */
 }
 
-.carousel-item {
-    width: 300px;
-    height: 200px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform-style: preserve-3d;
-    transform-origin: center center;
-    margin: -100px 0 0 -150px;
-    transition: transform 1s, opacity 1s;
-    backface-visibility: hidden;
-}
-
-.carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.carousel-item.active {
-    width: 350px;
-    height: 350px;
-    z-index: 10;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-}
-
-.carousel-nav {
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
+.slider {
     display: flex;
-    gap: 10px;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+    height: 100%; /* Слайдер занимает всю высоту своего контейнера */
 }
 
-.carousel-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ccc;
+.slide {
+    min-width: 100%; /* Каждый слайд занимает 100% ширины слайдера */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Элементы внутри слайда (изображение и текст) будут располагаться по вертикали */
+    justify-content: center; /* Центрирует содержимое слайда по вертикали (изображение и подпись) */
+    align-items: center; /* Центрирует содержимое слайда по горизонтали */
+    flex-shrink: 0;
+    padding: 15px; /* Отступы внутри слайда */
+    height: 100%; /* Слайд занимает всю высоту своего контейнера */
+    text-align: center; /* Для центрирования текста, если он не обернут в отдельный p */
+}
+
+/* **НОВОЕ: Обертка для изображения** */
+.slide-image-wrapper {
+    width: 100%; /* Занимает всю ширину слайда */
+    height: 350px; /* **ВАЖНО: Фиксированная высота для области изображения.** Отрегулируйте! */
+    display: flex; /* Используем Flexbox для центрирования изображения внутри обертки */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Скрывает части изображения, выходящие за рамки */
+    border-radius: .25rem; /* Применяем border-radius к обертке, если нужно */
+    flex-shrink: 0; /* Не позволяет обертке сжиматься */
+}
+
+.slide img {
+    width: 100%; /* Изображение будет занимать всю ширину обертки */
+    height: 100%; /* Изображение будет занимать всю высоту обертки */
+    object-fit: cover; /* **ОБРЕЗАЕТ** изображение, чтобы оно полностью покрыло область обертки, сохраняя пропорции */
+    border-radius: .25rem; /* Если border-radius был на обертке, можно убрать здесь или оставить */
     cursor: pointer;
-    transition: background 0.3s;
+    display: block; /* Убираем лишний пробел, который может создавать inline-block */
 }
 
-.carousel-dot.active {
-    background: #7395AE; /* Серо-голубой */
+.slide p {
+    margin-top: 10px; /* Отступ между изображением и текстом */
+    font-size: 1rem; /* Размер шрифта для подписи */
+    text-align: center; /* Выравнивание текста по центру */
+    flex-shrink: 0; /* Не позволяет тексту сжиматься */
+    /* Можно задать max-height, если текст может быть очень длинным */
+    max-height: 80px; /* Пример: Максимальная высота для текста. Подстройте. */
+    overflow: hidden; /* Скрывает текст, если он не помещается */
+    text-overflow: ellipsis; /* Добавляет многоточие */
+    white-space: normal; /* Разрешает перенос строки для текста, но с ограничением по высоте */
+    line-height: 1.2; /* Межстрочный интервал */
 }
 
-/* Сайдбар */
+.slider-prev,
+.slider-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 5px;
+}
+
+.slider-prev {
+    left: 10px;
+}
+
+.slider-next {
+    right: 10px;
+}
+
+.slider-dots {
+    display: none;
+}
+
+.slider-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slider-dot.active {
+    background-color: #717171;
+}
+
+
 #sidebar {
     width: 300px;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s ease-in-out;
     background-color: #f8f9fa;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     position: relative;
     z-index: 1030;
-     max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
     overflow-y: auto;
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+}
+
+#sidebar.visible {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
 }
 
 #sidebar.hidden {
     transform: translateX(-100%);
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out 0.2s;
 }
 
 #toggleSidebar {
@@ -172,15 +226,85 @@ footer {
     border-radius: 50%;
 }
 
-/* Календарь */
-#calendar {
-    width: 100%;
-    min-height: 400px;
-    margin-top: 20px;
+.fc {
+    background-color: #ffffff;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: #2D3E50;
 }
 
-.fc { /* Стили для FullCalendar */
-    font-family: Arial, sans-serif;
+.fc-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.fc-toolbar-chunk {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.fc-toolbar-chunk:nth-child(1) {
+    order: 1;
+}
+.fc-toolbar-chunk:nth-child(2) {
+    order: 2;
+}
+.fc-toolbar-chunk:nth-child(3) {
+    order: 3;
+}
+
+.fc-toolbar-title {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.fc-button {
+    background-color: #E0E2E4 !important;
+    border: none !important;
+    color: #2D3E50 !important;
+    border-radius: 6px !important;
+    padding: 6px 12px !important;
+    transition: background-color 0.2s ease;
+}
+
+.fc-button:hover {
+    background-color: #C5C8CC !important;
+}
+
+.fc-button-active {
+    background-color: #7395AE !important;
+    color: white !important;
+}
+
+.fc-daygrid-day {
+    transition: background-color 0.2s ease;
+    border: none !important;
+}
+
+.fc-daygrid-day:hover {
+    background-color: #f1f1f1;
+}
+
+.fc-daygrid-event {
+    background-color: #E8F0FE;
+    color: #05386a;
+    border: none;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 12px;
+}
+
+.fc-event-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Дополнительные стили */
@@ -193,35 +317,10 @@ footer {
     border-radius: 10px;
 }
 
-/* Адаптивные стили */
-@media (max-width: 768px) {
-    #sidebar {
-        width: 250px;
-        position: fixed;
-        height: 100%;
-        z-index: 1040;
-    }
-    
-    .carousel-item {
-        width: 250px;
-        height: 150px;
-        margin: -75px 0 0 -125px;
-    }
-    
-    .carousel-item.active {
-        width: 280px;
-        height: 280px;
-    }
-}
-
-
-
-/* Стиль для заголовков таблицы */
 .text-header-color {
     color: #05386a !important;
 }
 
-/* Дополнительно можно стилизовать таблицу */
 .table {
     border-color: #E0E2E4;
 }
@@ -232,4 +331,42 @@ footer {
 
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(115, 149, 174, 0.05);
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        width: 250px;
+        position: fixed;
+        height: 100%;
+        z-index: 1040;
+    }
+}
+
+/* Удаление подчёркивания у чисел дней */
+.fc-daygrid-day-number {
+    text-decoration: none !important;
+    display: block;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Воскресенье — красным */
+.fc-daygrid-day.fc-day-sun .fc-daygrid-day-number {
+    color: red !important;
+}
+
+/* Сокращённые названия дней недели до одной буквы */
+.fc-col-header-cell span {
+    visibility: hidden;
+    position: relative;
+    display: inline-block;
+    text-decoration: none !important;
+}
+
+.fc-col-header-cell span::after {
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-decoration: none !important;
 }

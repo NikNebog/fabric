@@ -8,18 +8,15 @@
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet">
-    
-
 </head>
 <body>
 
-<!-- Хедер -->
 <header class="sticky-top shadow-sm text-white">
     <div class="container py-3 d-flex justify-content-between align-items-center">
         <div class="header-left">
             <a href="/" class="text-white text-decoration-none">Главная</a>
             <a href="{% url 'trip' %}" class="text-white text-decoration-none">Поездки</a>
-            <a href="{% url 'job_application'  %}" class="text-white text-decoration-none">Заявка</a>
+            <a href="{% url 'job_application' %}" class="text-white text-decoration-none">Заявка</a>
         </div>
         <div class="header-right">
             {% if user.is_authenticated %}
@@ -46,9 +43,7 @@
     </div>
 </header>
 
-<!-- Обертка для основного содержимого -->
 <div class="wrapper">
-    <!-- Модальное окно входа -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -78,7 +73,6 @@
         </div>
     </div>
 
-    <!-- Сайдбар и контент -->
     <button id="toggleSidebar" class="btn btn-primary position-fixed m-2 p-2" style="top: 10px; left: 10px; width: 40px; height: 40px;">
         &#9776;
     </button>
@@ -93,44 +87,69 @@
             <div id="calendar" class="mt-4"></div>
         </aside>
 
-            <main class="flex-grow-1 p-4">
+        <main class="flex-grow-1 p-4">
             {% block content %}
-            <h1 class="mb-4">Добро пожаловать на наш сайт!</h1>
-            <p>Здесь вы можете управлять своими поездками, просматривать календарь мероприятий и следить за своей активностью. Приятного пользования!</p>
+            <div class="welcome-text text-center mb-5">
+                <h1 class="mb-3">Добро пожаловать на наш сайт!</h1>
+                <p>Здесь вы можете управлять своими поездками, просматривать календарь мероприятий и следить за своей активностью. Приятного пользования!</p>
+            </div>
 
-            <!-- Новая 3D карусель изображений -->
-            <div class="carousel-3d-container">
-                <div class="carousel-3d">
-                    <div class="carousel-item active" data-pos="0">
-                        <img src="{% static 'img/images.jpg' %}" alt="Изображение 1">
+            <div class="row">
+                <div class="slider-container">
+                    <div class="slider">
+                        {% with "1,2,3" as image_list %}
+                        {% for i in image_list|cut:"," %}
+                        <div class="slide {% if forloop.first %}active{% endif %}">
+                            {# Удалили d-flex, flex-column, align-items-center отсюда #}
+                            <div class="slide-image-wrapper"> {# Добавили обертку для изображения #}
+                                <img src="{% static 'img/'|add:i|add:'.jpg' %}" 
+                                     {# Удалили классы img-thumbnail и img-fluid #}
+                                     alt="Изображение {{ i }}"
+                                     data-bs-toggle="modal" 
+                                     data-bs-target="#imageModal{{ i }}">
+                            </div>
+                            <p>Наши лучшие работники {{ i }}</p> {# p теперь стоит прямо после обертки #}
+                        </div>
+                        {% endfor %}
+                        {% endwith %}
                     </div>
-                    <div class="carousel-item" data-pos="1">
-                        <img src="{% static 'img/voloda.jpg' %}" alt="Изображение 2">
-                    </div>
-                    <div class="carousel-item" data-pos="2">
-                        <img src="{% static 'img/vot.jpg' %}" alt="Изображение 3">
-                    </div>
-                </div>
-                <div class="carousel-nav">
-                    <div class="carousel-dot active" data-pos="0"></div>
-                    <div class="carousel-dot" data-pos="1"></div>
-                    <div class="carousel-dot" data-pos="2"></div>
+                    
+                    <button class="slider-prev btn btn-primary">←</button>
+                    <button class="slider-next btn btn-primary">→</button>
+                    
+                    <div class="slider-dots"></div>
                 </div>
             </div>
+            
+            {% with "1,2,3" as image_list %}
+            {% for i in image_list|cut:"," %}
+            <div class="modal fade" id="imageModal{{ i }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-body p-0">
+                            <img src="{% static 'img/'|add:i|add:'.jpg' %}" class="w-100" alt="Изображение {{ i }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endwith %}
             {% endblock content %}
         </main>
     </div>
 </div>
 
-<!-- Футер -->
 <footer class="text-white text-center py-3">
     <div class="container">
-        Сайт Небогина Никиты © {% now "Y" %}
+        Сайт Небогина Никиты {% now "d.m.Y" %}
     </div>
 </footer>
 <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
-  <script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
 
 
 </body>
