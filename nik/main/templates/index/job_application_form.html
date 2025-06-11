@@ -1,6 +1,6 @@
 {% extends "index/index.html" %}
 
-{% block title %}Заявка на работу{% endblock %}
+{% block title %}Заявка на командировку{% endblock %}
 
 {% block content %}
 <div class="container my-5">
@@ -8,7 +8,7 @@
         <div class="col-lg-10">
             <div class="card border-0 shadow-lg">
                 <div class="card-header custom-header text-white py-3">
-                    <h2 class="h4 mb-0 text-center"><i class="bi bi-person-plus me-2"></i>Форма заявки на работу</h2>
+                    <h2 class="h4 mb-0 text-center"><i class="bi bi-briefcase me-2"></i>Форма заявки на командировку</h2>
                 </div>
                 <div class="card-body p-5">
                     {% if messages %}
@@ -21,14 +21,13 @@
                         {% endfor %}
                     </div>
                     {% endif %}
-                    
-                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+                    <form method="post" class="needs-validation" novalidate> {# enctype="multipart/form-data" удален, так как нет загрузки файлов #}
                         {% csrf_token %}
-                        
-                        <!-- Личная информация -->
+
                         <div class="mb-5">
                             <h4 class="section-header mb-4 pb-2 border-bottom">
-                                <i class="bi bi-person-vcard me-2"></i>Личная информация
+                                <i class="bi bi-person-vcard me-2"></i>Данные сотрудника
                             </h4>
                             <div class="row g-3">
                                 <div class="col-md-4">
@@ -64,34 +63,70 @@
                                         {% endif %}
                                     </div>
                                 </div>
+                                <div class="col-md-12"> {# Должность теперь на полную ширину #}
+                                    <div class="mb-3">
+                                        <label for="{{ form.position.id_for_label }}" class="form-label">{{ form.position.label }}</label>
+                                        {{ form.position }}
+                                        {% if form.position.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form.position.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Контактная информация -->
                         <div class="mb-5">
                             <h4 class="section-header mb-4 pb-2 border-bottom">
-                                <i class="bi bi-telephone me-2"></i>Контактная информация
+                                <i class="bi bi-geo-alt me-2"></i>Информация о командировке
                             </h4>
+                            <div class="mb-3">
+                                <label for="{{ form.destination.id_for_label }}" class="form-label">{{ form.destination.label }}</label>
+                                {{ form.destination }}
+                                {% if form.destination.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.destination.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.purpose.id_for_label }}" class="form-label">{{ form.purpose.label }}</label>
+                                {{ form.purpose }}
+                                {% if form.purpose.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.purpose.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.funding.id_for_label }}" class="form-label">{{ form.funding.label }}</label>
+                                {{ form.funding }}
+                                {% if form.funding.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.funding.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="{{ form.phone.id_for_label }}" class="form-label">{{ form.phone.label }}</label>
-                                        {{ form.phone }}
-                                        <small class="text-muted d-block mt-1">Формат: +7 (XXX) XXX-XX-XX</small>
-                                        {% if form.phone.errors %}
+                                        <label for="{{ form.start_date.id_for_label }}" class="form-label">{{ form.start_date.label }}</label>
+                                        {{ form.start_date }}
+                                        {% if form.start_date.errors %}
                                             <div class="invalid-feedback d-block">
-                                                {{ form.phone.errors.0 }}
+                                                {{ form.start_date.errors.0 }}
                                             </div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
-                                        {{ form.email }}
-                                        {% if form.email.errors %}
+                                        <label for="{{ form.end_date.id_for_label }}" class="form-label">{{ form.end_date.label }}</label>
+                                        {{ form.end_date }}
+                                        {% if form.end_date.errors %}
                                             <div class="invalid-feedback d-block">
-                                                {{ form.email.errors.0 }}
+                                                {{ form.end_date.errors.0 }}
                                             </div>
                                         {% endif %}
                                     </div>
@@ -99,100 +134,24 @@
                             </div>
                         </div>
 
-                        <!-- Информация о должности -->
-                        <div class="mb-5">
-                            <h4 class="section-header mb-4 pb-2 border-bottom">
-                                <i class="bi bi-briefcase me-2"></i>Информация о должности
-                            </h4>
-                            <div class="row g-3">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label for="{{ form.desired_position.id_for_label }}" class="form-label">{{ form.desired_position.label }}</label>
-                                        {{ form.desired_position }}
-                                        {% if form.desired_position.errors %}
-                                            <div class="invalid-feedback d-block">
-                                                {{ form.desired_position.errors.0 }}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="{{ form.desired_salary.id_for_label }}" class="form-label">{{ form.desired_salary.label }}</label>
-                                        {{ form.desired_salary }}
-                                        {% if form.desired_salary.errors %}
-                                            <div class="invalid-feedback d-block">
-                                                {{ form.desired_salary.errors.0 }}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Профессиональная информация -->
-                        <div class="mb-5">
-                            <h4 class="section-header mb-4 pb-2 border-bottom">
-                                <i class="bi bi-file-earmark-text me-2"></i>Профессиональная информация
-                            </h4>
-                            <div class="mb-3">
-                                <label for="{{ form.experience.id_for_label }}" class="form-label">{{ form.experience.label }}</label>
-                                {{ form.experience }}
-                                {% if form.experience.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.experience.errors.0 }}
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="mb-3">
-                                <label for="{{ form.education.id_for_label }}" class="form-label">{{ form.education.label }}</label>
-                                {{ form.education }}
-                                {% if form.education.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.education.errors.0 }}
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="mb-3">
-                                <label for="{{ form.skills.id_for_label }}" class="form-label">{{ form.skills.label }}</label>
-                                {{ form.skills }}
-                                {% if form.skills.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.skills.errors.0 }}
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <!-- Дополнительная информация -->
                         <div class="mb-4">
                             <h4 class="section-header mb-4 pb-2 border-bottom">
-                                <i class="bi bi-file-earmark-plus me-2"></i>Дополнительная информация
+                                <i class="bi bi-info-circle me-2"></i>Примечания
                             </h4>
                             <div class="mb-3">
-                                <label for="{{ form.cover_letter.id_for_label }}" class="form-label">{{ form.cover_letter.label }}</label>
-                                {{ form.cover_letter }}
-                                {% if form.cover_letter.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.cover_letter.errors.0 }}
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="mb-3">
-                                <label for="{{ form.resume.id_for_label }}" class="form-label">{{ form.resume.label }}</label>
-                                {{ form.resume }}
-                                <small class="text-muted d-block">Поддерживаемые форматы: PDF, DOC, DOCX (максимальный размер 5MB)</small>
-                                {% if form.resume.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.resume.errors.0 }}
-                                </div>
+                                <label for="{{ form.notes.id_for_label }}" class="form-label">{{ form.notes.label }}</label>
+                                {{ form.notes }}
+                                {% if form.notes.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.notes.errors.0 }}
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
 
                         <div class="d-grid mt-5">
                             <button type="submit" class="btn custom-btn btn-lg py-3">
-                                <i class="bi bi-send-check me-2"></i>Отправить заявку
+                                <i class="bi bi-send-check me-2"></i>Отправить заявку на командировку
                             </button>
                         </div>
                     </form>
@@ -202,104 +161,27 @@
     </div>
 </div>
 
-<style>
-        /* Основные цвета */
-    .custom-header {
-        background-color: #7395AE;
-    }
-    
-    .section-header {
-        color: #7395AE;
-        font-weight: 600;
-    }
-    
-    .custom-btn {
-        background-color: #7395AE;
-        border-color: #7395AE;
-        color: white;
-    }
-    
-    .custom-btn:hover {
-        background-color: #5D7E9B;
-        border-color: #5D7E9B;
-        color: white;
-    }
-    
-    /* Стили формы */
-    .form-control, .form-select {
-        border-radius: 0.25rem;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid #ced4da;
-    }
-    
-    .form-control:focus, .form-select:focus {
-        border-color: #7395AE;
-        box-shadow: 0 0 0 0.25rem rgba(115, 149, 174, 0.25);
-    }
-    
-    /* Карточка */
-    .card {
-        border-radius: 0.5rem;
-        overflow: hidden;
-        border: 1px solid #E0E2E4;
-    }
-    
-    .border-bottom {
-        border-color: #E0E2E4 !important;
-    }
-    
-    /* Валидация */
-    .invalid-feedback {
-        color: #dc3545;
-        font-size: 0.85rem;
-    }
-    
-    .is-invalid {
-        border-color: #dc3545;
-    }
-    
-    .is-invalid:focus {
-        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
-    }
-    
-    /* Адаптивность */
-    @media (max-width: 768px) {
-        .card-body {
-            padding: 1.5rem !important;
-        }
-        
-        .btn-lg {
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-        }
-    }
-</style>
+
 
 <script>
 // Добавляем стили для валидации
 document.addEventListener('DOMContentLoaded', function() {
     // Показываем ошибки при отправке формы
     const forms = document.querySelectorAll('.needs-validation');
-    
+
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', function(event) {
             if (!form.checkValidity()) {
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
+
             form.classList.add('was-validated');
         }, false);
     });
-    
-    // Добавляем маску для телефона
-    const phoneInput = document.getElementById('{{ form.phone.id_for_label }}');
-    if (phoneInput) {
-        phoneInput.addEventListener('input', function(e) {
-            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
-            e.target.value = !x[2] ? x[1] : x[1] + ' (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
-        });
-    }
+
+    // Удален код для маски телефона, так как он больше не нужен для формы командировки.
+    // Если вам нужна маска для других полей, добавьте ее здесь.
 });
 </script>
 {% endblock %}

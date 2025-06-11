@@ -1,36 +1,33 @@
 from django import forms
-from .models import JobApplication
+from .models import BusinessTripApplication 
 
-class JobApplicationForm(forms.ModelForm):
+class BusinessTripApplicationForm(forms.ModelForm):
     class Meta:
-        model = JobApplication
+        model = BusinessTripApplication
         fields = [
             'surname', 'name', 'patronymic',
-            'phone', 'email',
-            'desired_position', 'desired_salary',
-            'experience', 'education', 'skills',
-            'cover_letter', 'resume'
+            'position',
+            'destination', 'purpose',
+            'funding',
+            'start_date', 'end_date'
         ]
-        
+
         widgets = {
-            'cover_letter': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),
-            'experience': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
-            'education': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
-            'skills': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
-            'phone': forms.TextInput(attrs={'placeholder': '+7 (XXX) XXX-XX-XX'}),
+            'destination': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Например: Астана, Казахстан'}),
+            'purpose': forms.Textarea(attrs={'rows': 5, 'class': 'form-control', 'placeholder': 'Опишите цель командировки (например, участие в конференции, встреча с клиентами)'}),
+            'funding': forms.Textarea(attrs={'rows': 3, 'class': 'form-control', 'placeholder': 'Укажите источник финансирования (например, бюджет компании, грант)'}),
+            'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
-        
+
         labels = {
             'surname': 'Фамилия',
             'name': 'Имя',
             'patronymic': 'Отчество',
-            'phone': 'Телефон',
-            'email': 'Электронная почта',
-            'desired_position': 'Желаемая должность',
-            'desired_salary': 'Желаемая зарплата',
-            'experience': 'Опыт работы',
-            'education': 'Образование',
-            'skills': 'Профессиональные навыки',
-            'cover_letter': 'Сопроводительное письмо',
-            'resume': 'Резюме (PDF или DOCX)',
+            'position': 'Должность',
+            'destination': 'Куда будет командировка',
+            'purpose': 'Цель командировки',
+            'funding': 'Финансирование',
+            'start_date': 'Дата начала командировки',
+            'end_date': 'Дата окончания командировки',
         }

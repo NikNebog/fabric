@@ -3,7 +3,7 @@ from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Employee
-from .forms import JobApplicationForm
+from .forms import BusinessTripApplicationForm
 import json
 
 
@@ -77,12 +77,12 @@ def dashboard_view(request):
 
 def job_application_view(request):
     if request.method == 'POST':
-        form = JobApplicationForm(request.POST, request.FILES)
+        form = BusinessTripApplicationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('job_application')  # Перенаправление после успешной отправки
+            return redirect('job_application') 
     else:
-        form = JobApplicationForm()
+        form = BusinessTripApplicationForm()
     return render(request, 'index/job_application_form.html', {'form': form})
 
 

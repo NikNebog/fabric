@@ -28,60 +28,42 @@ class Employee(models.Model):
         verbose_name_plural = "Сотрудники"
 
 
-class JobApplication(models.Model):
-    # Личная информация
-    name = models.CharField(max_length=100, verbose_name="Имя")
+class BusinessTripApplication(models.Model):
+
     surname = models.CharField(max_length=100, verbose_name="Фамилия")
+    name = models.CharField(max_length=100, verbose_name="Имя")
     patronymic = models.CharField(max_length=100, verbose_name="Отчество", blank=True)
-    
-    # Контактная информация
-    phone = models.CharField(max_length=20, verbose_name="Номер телефона")
-    email = models.EmailField(verbose_name="Электронная почта")
-    
-    # Информация о позиции
-    desired_position = models.CharField(max_length=100, verbose_name="Желаемая должность")
-    desired_salary = models.DecimalField(
-        max_digits=10, 
-        decimal_places=2, 
-        verbose_name="Желаемая зарплата",
-        null=True, 
-        blank=True
-    )
-    
-    # Информация о заявке
-    application_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата подачи заявки")
+
+    position = models.CharField(max_length=100, verbose_name="Должность")
+
+    destination = models.CharField(max_length=255, verbose_name="Куда будет командировка")
+    purpose = models.TextField(verbose_name="Цель командировки")
+    funding = models.TextField(verbose_name="Финансирование", blank=True)
+
+    start_date = models.DateField(verbose_name="Дата начала командировки")
+    end_date = models.DateField(verbose_name="Дата окончания командировки")
+
+
     status = models.CharField(
         max_length=20,
         choices=[
             ('pending', 'На рассмотрении'),
-            ('interview', 'Приглашен на собеседование'),
+            ('approved', 'Одобрена'),
             ('rejected', 'Отклонена'),
-            ('accepted', 'Принята'),
+            ('completed', 'Завершена'),
         ],
         default='pending',
         verbose_name="Статус заявки"
     )
-    
-    # Дополнительная информация
-    experience = models.TextField(verbose_name="Опыт работы", blank=True)
-    education = models.TextField(verbose_name="Образование", blank=True)
-    skills = models.TextField(verbose_name="Навыки", blank=True)
-    cover_letter = models.TextField(verbose_name="Сопроводительное письмо", blank=True)
-    
-    # Ссылка на резюме (если загружается файл)
-    resume = models.FileField(
-        upload_to='resumes/',
-        verbose_name="Резюме",
-        null=True,
-        blank=True
-    )
-    
+
+    application_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата подачи заявки")
+
     notes = models.TextField(verbose_name="Примечания", blank=True)
 
     def __str__(self):
-        return f"Заявка от {self.surname} {self.name} на позицию {self.desired_position}"
+        return f"Заявка на командировку от {self.surname} {self.name} в {self.destination}"
 
     class Meta:
-        verbose_name = "Заявка на работу"
-        verbose_name_plural = "Заявки на работу"
+        verbose_name = "Заявка на командировку"
+        verbose_name_plural = "Заявки на командировку"
         ordering = ['-application_date']

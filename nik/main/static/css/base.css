@@ -1,4 +1,3 @@
-/* Основные стили */
 html, body {
     height: 100%;
     margin: 0;
@@ -23,16 +22,35 @@ main {
     padding: 20px 0;
 }
 
-/* Хедер */
+
 header {
     background-color: #7395AE;
     color: #ffffff;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px; 
+}
+
+
+.header-container { 
+    display: flex;
+    width: 100%;
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 20px;
+}
+
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
 }
 
 .header-left a {
     color: #ffffff;
     text-decoration: none;
-    margin-right: 15px;
 }
 
 .header-left a:hover {
@@ -40,7 +58,32 @@ header {
     color: #E0E2E4;
 }
 
-/* Кнопки */
+
+.main-nav .nav { 
+    display: flex;
+    list-style: none; 
+    padding: 0;
+    margin: 0;
+    gap: 20px; 
+}
+
+.main-nav .nav-link { 
+    color: #ffffff;
+    text-decoration: none;
+    padding: 5px 0; 
+}
+
+.main-nav .nav-link:hover {
+    text-decoration: underline;
+    color: #E0E2E4;
+}
+
+
+.user-info {
+    margin-left: auto;
+}
+
+
 .btn-primary {
     background-color: #7395AE;
     border-color: #7395AE;
@@ -62,7 +105,6 @@ header {
     border-color: #C5C8CC;
 }
 
-/* Футер */
 footer {
     flex-shrink: 0;
     background-color: #7395AE;
@@ -76,69 +118,65 @@ footer {
 .slider-container {
     position: relative;
     width: 100%;
-    max-width: 800px; /* Ограничьте ширину контейнера, если нужно */
+    max-width: 800px;
     margin: 0 auto;
     overflow: hidden;
-    /* Устанавливаем общую высоту для всего слайдера.
-       Эта высота будет включать изображение и подпись. */
-    height: 450px; /* **ВАЖНО: Отрегулируйте эту высоту под свой контент** */
-    display: flex; /* Для центрирования всего содержимого внутри контейнера */
-    align-items: center; /* Центрирует по вертикали */
-    justify-content: center; /* Центрирует по горизонтали */
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
 }
 
 .slider {
     display: flex;
     transition: transform 0.5s ease-in-out;
     width: 100%;
-    height: 100%; /* Слайдер занимает всю высоту своего контейнера */
+    height: 100%; 
 }
 
 .slide {
-    min-width: 100%; /* Каждый слайд занимает 100% ширины слайдера */
+    min-width: 100%; 
     box-sizing: border-box;
     display: flex;
-    flex-direction: column; /* Элементы внутри слайда (изображение и текст) будут располагаться по вертикали */
-    justify-content: center; /* Центрирует содержимое слайда по вертикали (изображение и подпись) */
-    align-items: center; /* Центрирует содержимое слайда по горизонтали */
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
     flex-shrink: 0;
-    padding: 15px; /* Отступы внутри слайда */
-    height: 100%; /* Слайд занимает всю высоту своего контейнера */
-    text-align: center; /* Для центрирования текста, если он не обернут в отдельный p */
+    padding: 15px; 
+    height: 100%; 
+    text-align: center; 
 }
 
-/* **НОВОЕ: Обертка для изображения** */
 .slide-image-wrapper {
-    width: 100%; /* Занимает всю ширину слайда */
-    height: 350px; /* **ВАЖНО: Фиксированная высота для области изображения.** Отрегулируйте! */
-    display: flex; /* Используем Flexbox для центрирования изображения внутри обертки */
+    width: 100%; 
+    height: 350px;
+    display: flex; 
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Скрывает части изображения, выходящие за рамки */
-    border-radius: .25rem; /* Применяем border-radius к обертке, если нужно */
-    flex-shrink: 0; /* Не позволяет обертке сжиматься */
+    overflow: hidden; 
+    border-radius: .25rem; 
+    flex-shrink: 0; 
 }
 
 .slide img {
-    width: 100%; /* Изображение будет занимать всю ширину обертки */
-    height: 100%; /* Изображение будет занимать всю высоту обертки */
-    object-fit: cover; /* **ОБРЕЗАЕТ** изображение, чтобы оно полностью покрыло область обертки, сохраняя пропорции */
-    border-radius: .25rem; /* Если border-radius был на обертке, можно убрать здесь или оставить */
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    border-radius: .25rem; 
     cursor: pointer;
-    display: block; /* Убираем лишний пробел, который может создавать inline-block */
+    display: block; 
 }
 
 .slide p {
-    margin-top: 10px; /* Отступ между изображением и текстом */
-    font-size: 1rem; /* Размер шрифта для подписи */
-    text-align: center; /* Выравнивание текста по центру */
-    flex-shrink: 0; /* Не позволяет тексту сжиматься */
-    /* Можно задать max-height, если текст может быть очень длинным */
-    max-height: 80px; /* Пример: Максимальная высота для текста. Подстройте. */
-    overflow: hidden; /* Скрывает текст, если он не помещается */
-    text-overflow: ellipsis; /* Добавляет многоточие */
-    white-space: normal; /* Разрешает перенос строки для текста, но с ограничением по высоте */
-    line-height: 1.2; /* Межстрочный интервал */
+    margin-top: 10px; 
+    font-size: 1rem; 
+    text-align: center; 
+    flex-shrink: 0; 
+    max-height: 80px; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: normal; 
+    line-height: 1.2;
 }
 
 .slider-prev,
@@ -189,7 +227,7 @@ footer {
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     position: relative;
-    z-index: 1030;
+    z-index: 10; 
     max-height: calc(100vh - 100px);
     overflow-y: auto;
     transform: translateX(-100%);
@@ -210,20 +248,19 @@ footer {
     transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out 0.2s;
 }
 
+
 #toggleSidebar {
-    z-index: 1050;
+    z-index: 1061;
     background-color: #7395AE;
     color: white;
     border: none;
-    position: fixed;
-    top: 10px;
-    left: 10px;
     width: 40px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    margin-right: 15px; 
 }
 
 .fc {
@@ -307,7 +344,6 @@ footer {
     text-overflow: ellipsis;
 }
 
-/* Дополнительные стили */
 .dropdown-menu {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -338,11 +374,10 @@ footer {
         width: 250px;
         position: fixed;
         height: 100%;
-        z-index: 1040;
+        z-index: 1040; 
     }
 }
 
-/* Удаление подчёркивания у чисел дней */
 .fc-daygrid-day-number {
     text-decoration: none !important;
     display: block;
@@ -350,12 +385,10 @@ footer {
     font-weight: 500;
 }
 
-/* Воскресенье — красным */
 .fc-daygrid-day.fc-day-sun .fc-daygrid-day-number {
     color: red !important;
 }
 
-/* Сокращённые названия дней недели до одной буквы */
 .fc-col-header-cell span {
     visibility: hidden;
     position: relative;
@@ -369,4 +402,73 @@ footer {
     top: 0;
     left: 0;
     text-decoration: none !important;
+}
+
+.custom-header {
+    background-color: #7395AE; 
+}
+
+.section-header {
+    color: #7395AE;
+    font-weight: 600;
+}
+
+.custom-btn {
+    background-color: #7395AE;
+    border-color: #7395AE;
+    color: white;
+}
+
+.custom-btn:hover {
+    background-color: #5D7E9B;
+    border-color: #5D7E9B;
+    color: white;
+}
+
+.form-control, .form-select {
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ced4da;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #7395AE;
+    box-shadow: 0 0 0 0.25rem rgba(115, 149, 174, 0.25);
+}
+
+/* Карточка */
+.card {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid #E0E2E4;
+}
+
+.border-bottom {
+    border-color: #E0E2E4 !important;
+}
+
+/* Валидация */
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 0.85rem;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1.5rem !important;
+    }
+
+    .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
 }
